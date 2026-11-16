@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Launch Radar — Token Launch Radar</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="mark">◉</div>
+    <div>
+      <h1>LAUNCH RADAR</h1>
+      <p class="sub">Token launch radar — pre-token protocols ranked by implied launch value</p>
+    </div>
+  </div>
+  <div class="stats" id="stats"></div>
+</header>
+
+<main>
+  <section class="method" id="method">
+    <h2>How the value is computed</h2>
+    <p>Every protocol on this board records no token on DefiLlama and is not a wrapped, staked or
+    bridged product of a token that already trades. Its implied launch value is its own claim, computed
+    from the snapshot's figures alone — no list of names is hardcoded anywhere in the program:</p>
+    <p class="formula">implied value = TVL &times; category multiple &times; growth &times; age &times; chains</p>
+    <ul>
+      <li><b>Category multiple</b> — the median FDV/TVL of the launched protocols in the same category
+      (global median when a category has fewer than three launched comps), clamped to 0.02&ndash;1.50.</li>
+      <li><b>Growth</b> — the 7-day TVL change, clamped to &minus;50%…+100% and halved into a factor of 0.75&ndash;1.50.</li>
+      <li><b>Age</b> — years listed with no token, +4% a year, capped at +16%. A protocol that survived years
+      at size with no token is a more credible launch than a two-month-old one.</li>
+      <li><b>Chains</b> — +2% per chain it runs on, capped at +10%.</li>
+    </ul>
+    <p class="calib" id="calib"></p>
+    <p class="warn">Implied value is this radar's own claim, never a promise. A protocol that records no
+    token may still have one its DefiLlama record does not carry. Farm sizes are suggestions, not advice.</p>
+  </section>
+
+  <section class="controls">
+    <input id="q" type="search" placeholder="Search name or slug…" aria-label="Search">
+    <select id="cat" aria-label="Category"><option value="">All categories</option></select>
+    <select id="chain" aria-label="Chain"><option value="">All chains</option></select>
+    <select id="sort" aria-label="Sort">
+      <option value="value">Sort: implied value</option>
+      <option value="tvl">Sort: TVL</option>
+      <option value="growth">Sort: 7-day growth</option>
+      <option value="age">Sort: age</option>
+    </select>
+    <label class="watch"><input id="watchOnly" type="checkbox"> Watchlist only</label>
+    <span class="count" id="count"></span>
+  </section>
+
+  <section class="board-wrap">
+    <table class="board">
+      <thead><tr>
+        <th class="num">#</th><th>Protocol</th><th>Category</th><th>Chains</th>
+        <th class="num">TVL</th><th class="num">7d</th><th class="num">Age</th>
+        <th class="num">Implied value</th><th>Why this rank</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </section>
+
+  <section class="detail" id="detail"></section>
+</main>
+
+<footer>
+  <p>Data: DefiLlama protocol snapshot, <span id="asof"></span>. The board covers all 40 watchlist
+  protocols plus every other pre-token candidate in the snapshot. Built by an agent for the make.fun
+  token launch radar bounty.</p>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
